@@ -7,6 +7,7 @@ function ShelfPage() {
 
   const dispatch = useDispatch();
   const shelfItem = useSelector(store => store.shelfReducer);
+  const userCount = useSelector(store => store.shelfReducer);
   // Set user information to local state
   const [newShelfItem, setNewShelfItem] = useState({
     description: '',
@@ -19,6 +20,7 @@ function ShelfPage() {
    */
   useEffect(() => {
     fetchShelf();
+    fetchUserCount();
   }, []);
 
   /**
@@ -30,7 +32,14 @@ function ShelfPage() {
     });
   }
 
+  const fetchUserCount = () => {
+    dispatch({
+      type: 'FETCH_COUNT'
+    })
+  }
+
   console.log('shelfItem', shelfItem);
+  console.log('user shelf count', userCount);
 
 
   const handleInputChange = (event) => {
@@ -44,6 +53,7 @@ function ShelfPage() {
     axios.delete(`/api/shelf/${id}`)
     .then (response => {
       fetchShelf();
+      fetchUserCount();
     })
     .catch ( error => {
       console.error('we got an error when deleting', error);
@@ -59,8 +69,9 @@ function ShelfPage() {
     axios.post('/api/shelf', newShelfItem)
     .then(response => {
       fetchShelf();
+      fetchUserCount();
     })
-    .catch(error => {
+    .catch(error => {d
       console.error('we got an error when trying to POST', error);
     })
   }
@@ -69,19 +80,35 @@ function ShelfPage() {
     <div className="container">
       <h2>Shelf</h2>
       <p>All of the available items can be seen here.</p>
-      <table>
-        <tbody>
-        {shelfItem.map((item) => (
-          <tr key={item.id}>
-            <td>
-              <img src={item.image_url} />
-              <button onClick={() => deleteItem(item.id)}>Delete</button>
-            </td>
-          </tr>
-        ))}
-        </tbody>
-      </table>
-
+      <div className="tables-container">
+        <div className="table-left">
+          <table>
+            <tbody>
+            {shelfItem.map((item) => (
+              <tr key={item.id}>
+                <td>
+                  <img src={item.image_url} />
+                  <button onClick={() => deleteItem(item.id)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="table-right">
+          <table>
+            <tbody>
+            {userCount.map((item) => (
+              <tr key={item.count}>
+                <td>{item.username}</td>
+                <td>{item.count}</td>2
+              </tr>
+            ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+ 
       <form onSubmit={onSubmit}>
           <textarea 
            placeholder="description"

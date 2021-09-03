@@ -73,7 +73,23 @@ router.put('/:id', (req, res) => {
  * they have added to the shelf
  */
 router.get('/count', (req, res) => {
-  // endpoint functionality
+  let queryString = `
+    SELECT "user".username, count("item".id)
+    FROM "user"
+    JOIN "item"
+    ON "user".id = "item".user_id
+    GROUP BY "user".id
+  `;
+  pool.query(queryString)
+    .then((result) => {
+      console.log('our user response', result.rows);
+      res.send(result.rows);
+      // res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log('shelf response error', err);
+      res.sendStatus(500);
+    })
 });
 
 /**
