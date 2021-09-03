@@ -7,6 +7,8 @@ const shelfReducer = (state = [], action) => {
   switch(action.type) {
     case 'SET_SHELF_LIST' :
       return action.payload;
+    case 'FETCH_USER_COUNT' :
+      return action.payload;
     default:
       return state;
   }

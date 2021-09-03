@@ -18,6 +18,23 @@ function* fetchShelf() {
   }
 }
 
+/**
+ * Fetch User Count
+ * TODO: Description of function
+ */
+ function* fetchUserCount() {
+  try {
+    const res = yield axios.get('/api/shelf/count');
+    yield put({
+      type: 'FETCH_USER_COUNT',
+      payload: res.data
+    })
+  } catch (error) {
+    console.log('error', error);
+  }
+}
+
+
 
 // /* Add Item to Shelf
 // * TODO: description of function
@@ -36,6 +53,7 @@ function* fetchShelf() {
  */
 function* shelfSaga() {
   yield takeLatest('FETCH_SHELF', fetchShelf);
+  yield takeLatest('FETCH_COUNT', fetchUserCount);
 }
 
 export default shelfSaga;
