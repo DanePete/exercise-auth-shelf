@@ -6,7 +6,17 @@ const router = express.Router();
  * Get all of the items on the shelf
  */
 router.get('/', (req, res) => {
-  res.sendStatus(200); // For testing only, can be removed
+  let queryString = `SELECT * FROM item`;
+  pool.query(queryString)
+    .then((result) => {
+      console.log('our shelf item response', result.rows);
+      res.send(result.rows);
+      // res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log('shelf response error', err);
+      res.sendStatus(500);
+    })
 });
 
 /**
