@@ -15,3 +15,7 @@ CREATE TABLE "item" (
     "image_url" VARCHAR (2083),
     "user_id" INT REFERENCES "user"
 );
+
+-- INSERT 1 record for testing
+INSERT INTO "item" ("description", "image_url", "user_id")
+	VALUES('our cool shelf item', 'https://i.pcmag.com/imagery/reviews/03aizylUVApdyLAIku1AvRV-39.1605559903.fit_scale.size_1028x578.png', '1')
