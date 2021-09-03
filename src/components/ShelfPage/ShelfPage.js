@@ -42,11 +42,13 @@ function ShelfPage() {
   const onSubmit = (event) => {
     event.preventDefault(event);
     console.log('Adding Shelf Item', newShelfItem);
+
+    axios.post('/api/shelf', newShelfItem);
     
-    dispatch({
-      type: "ADD_NEW_ITEM",
-      payload: newShelfItem
-    })
+    // dispatch({
+    //   type: "ADD_NEW_ITEM",
+    //   payload: newShelfItem
+    // })
   }
 
   return (
@@ -55,9 +57,11 @@ function ShelfPage() {
       <p>All of the available items can be seen here.</p>
       <table>
         <tbody>
-        {shelfItem.map(item => (
-          <tr>
-            <td>{item.description}</td>
+        {shelfItem.map((item, id) => (
+          <tr key={id}>
+            <td>
+              <img src={item.image_url} />
+            </td>
           </tr>
         ))}
         </tbody>

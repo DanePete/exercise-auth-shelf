@@ -23,7 +23,22 @@ router.get('/', (req, res) => {
  * Add an item for the logged in user to the shelf
  */
 router.post('/', (req, res) => {
-  // endpoint functionality
+  const sqlText = `INSERT INTO "item" ("description", "image_url", "user_id")
+                   VALUES($1, $2, $3)
+                    `;
+  const sqlParams = [
+    req.body.description,
+    req.body.url,
+    req.user.id
+  ] 
+
+  pool.query(sqlText, sqlParams).then((response) => {
+    console.log('POST successful', response);
+    res.sendStatus(201)
+  }).catch((error) => {
+    console.error('POST Error', error);
+    res.sendStatus(500)
+  })
 });
 
 /**

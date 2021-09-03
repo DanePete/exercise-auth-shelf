@@ -18,8 +18,20 @@ function* fetchShelf() {
   }
 }
 
-/**
- * Saga Shelf
+
+// /* Add Item to Shelf
+// * TODO: description of function
+// */
+// function* addItem(action) {
+//   try {
+//     yield axios.post('/api/shelf', action.payload)
+//   } catch (error) {
+//     console.error('error', error);
+//   }
+// }
+
+
+ /* Saga Shelf
  * TODO: description of function
  */
 function* shelfSaga() {
