@@ -45,8 +45,21 @@ router.post('/', (req, res) => {
  * Delete an item if it's something the logged in user added
  */
 router.delete('/:id', (req, res) => {
-  // endpoint functionality
+  const idToDelete = req.params.id
+  console.log('idToDelete', idToDelete);
+  const sqlText = `DELETE FROM "item"
+                  WHERE id=$1;`;
+  const sqlParams = [idToDelete];
+   pool.query(sqlText, sqlParams).then((response) => {
+    console.log('DELETE successful', response);
+    res.sendStatus(200)
+  }).catch((error) => {
+    console.error('DELETE Error', error);
+    res.sendStatus(500);
+  })
 });
+
+// Below this are STRETCH requirements
 
 /**
  * Update an item if it's something the logged in user added

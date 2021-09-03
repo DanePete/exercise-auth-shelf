@@ -39,16 +39,30 @@ function ShelfPage() {
     })
   }
 
+  const deleteItem = (id) => {
+    console.log('Deleting Shelf Item', id)
+    axios.delete(`/api/shelf/${id}`)
+    .then (response => {
+      fetchShelf();
+    })
+    .catch ( error => {
+      console.error('we got an error when deleting', error);
+    })
+   
+  }
+
+
   const onSubmit = (event) => {
     event.preventDefault(event);
     console.log('Adding Shelf Item', newShelfItem);
 
-    axios.post('/api/shelf', newShelfItem);
-    
-    // dispatch({
-    //   type: "ADD_NEW_ITEM",
-    //   payload: newShelfItem
-    // })
+    axios.post('/api/shelf', newShelfItem)
+    .then(response => {
+      fetchShelf();
+    })
+    .catch(error => {
+      console.error('we got an error when trying to POST', error);
+    })
   }
 
   return (
@@ -57,10 +71,11 @@ function ShelfPage() {
       <p>All of the available items can be seen here.</p>
       <table>
         <tbody>
-        {shelfItem.map((item, id) => (
-          <tr key={id}>
+        {shelfItem.map((item) => (
+          <tr key={item.id}>
             <td>
               <img src={item.image_url} />
+              <button onClick={() => deleteItem(item.id)}>Delete</button>
             </td>
           </tr>
         ))}
