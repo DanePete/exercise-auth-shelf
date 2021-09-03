@@ -26,7 +26,7 @@ app.use(passport.session());
 app.use('/api/user', userRouter);
 app.use('/api/shelf', shelfRouter);
 
-// Serve static files
+// Serve static filesm
 app.use(express.static('build'));
 
 // App Set //

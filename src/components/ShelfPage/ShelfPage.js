@@ -7,6 +7,11 @@ function ShelfPage() {
 
   const dispatch = useDispatch();
   const shelfItem = useSelector(store => store.shelfReducer);
+  // Set user information to local state
+  const [newShelfItem, setNewShelfItem] = useState({
+    description: '',
+    url: ''
+  });
 
   /**
    * FETCH ON LOAD
@@ -27,6 +32,23 @@ function ShelfPage() {
 
   console.log('shelfItem', shelfItem);
 
+
+  const handleInputChange = (event) => {
+    setNewShelfItem({
+      ...newShelfItem, [event.target.name]: event.target.value
+    })
+  }
+
+  const onSubmit = (event) => {
+    event.preventDefault(event);
+    console.log('Adding Shelf Item', newShelfItem);
+    
+    dispatch({
+      type: "ADD_NEW_ITEM",
+      payload: newShelfItem
+    })
+  }
+
   return (
     <div className="container">
       <h2>Shelf</h2>
@@ -40,6 +62,24 @@ function ShelfPage() {
         ))}
         </tbody>
       </table>
+
+      <form onSubmit={onSubmit}>
+          <textarea 
+           placeholder="description"
+           name="description"
+           value={newShelfItem.description}
+           onChange={handleInputChange}
+          />
+
+          <textarea 
+            placeholder="image url"
+            name="url"
+            value={newShelfItem.url}
+            onChange={handleInputChange}
+          />
+          <button type="submit">Add Item</button>
+      </form>
+
     </div>
   );
 }
